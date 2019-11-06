@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Request Page{% endblock %}
+
+{% block content %}
+<form>
+	<div class="container">
+	  <div class="form-group">
+	    <label for="exampleFormControlSelect1">Blood Type</label>
+	    <select class="form-control" id="exampleFormControlSelect1">
+	      <option>A+</option>
+	      <option>B+</option>
+	      <option>A-</option>
+	      <option>B-</option>
+	      <option>O+</option>
+	      <option>O-</option>
+	      <option>AB+</option>
+	      <option>AB-</option>
+	    </select>
+	  </div>
+	  <div class="form-group">
+	    <label for="exampleFormControlInput1">Amount</label>
+	    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="in ml">
+	  </div>
+	  <button type="button" class="btn btn-info">Request</button>
+</form>
+{% endblock %}
