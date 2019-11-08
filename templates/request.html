@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}Result{% endblock %}
+
+{% block content %}
+<h3> The details are </h3>
+<table border='1'>
+	{% for x in cursor %}
+<!-- 	<tr>
+		<th>
+			{{key}}
+		</th>
+		<td>
+			{{value}}
+		</td>
+	</tr>
+ -->
+ 	{% for i in x %}
+	<tr>
+		<th> 
+			{{i}} 
+		</th>
+		<th> 
+			{{x[i]}} 
+		</th>
+	<tr>
+
+	{% endfor %}
+
+	{% endfor %}
+</table>
+{% endblock %}

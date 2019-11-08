@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
+from forms import ReceiveForm
 import MySQLdb.cursors
 import re
 
 app = Flask(__name__)
 
-app.secret_key = '197#5G'
+app.config['SECRET_KEY'] = '245GA'
 
 # Enter your database connection details below
 app.config['MYSQL_HOST'] = 'localhost'
@@ -148,8 +149,15 @@ def receive():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE uid = %s', [session['uid']])
         account = cursor.fetchone()
-        # Show the profile page with account info
-        return render_template('receive.html', account=account)
+        form = ReceiveForm()
+        if form.is_submitted():
+            result = request.form
+            cursor.execute('SELECT * FROM inventory WHERE blood_type = %s', [result['bloodtype']])
+            # for row in cursor:
+            #     print(row)
+            return render_template('request.html', result=result, cursor=cursor)
+        # Show the receive page
+        return render_template('receive.html', form=form)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -163,10 +171,11 @@ def donate():
             sex = details['sex']
             age = details['age']
             bloodtype = details['bloodtype']
+            amount = details['amount']
             address = details['address']
             phone = details['phone']
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO donorinfo VALUES (NULL, %s, %s, %s, %s, %s, %s)", (name, sex, age, bloodtype, address, phone))
+            cur.execute("INSERT INTO donorinfo VALUES (NULL, %s, %s, %s, %s, %s, %s,%s)", (name, sex, age, bloodtype, address, phone, amount))
             mysql.connection.commit()
             cur.close()
             return('You have successfully submitted your donation request')
@@ -184,8 +193,8 @@ def profile():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM accounts WHERE uid = %s', [session['uid']])
         account = cursor.fetchone()
-        # Show the profile page with account info
-        return render_template('profile.html', account=account)
+        form = ReceiveForm()
+        return render_template('profile.html', form=form)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
     
