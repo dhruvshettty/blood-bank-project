@@ -1,32 +1,25 @@
+
 {% extends 'layout.html' %}
 
-{% block title %}Result{% endblock %}
+{% block title %}Project Results{% endblock %}
 
 {% block content %}
-<h3> The details are </h3>
-<table border='1'>
-	{% for x in cursor %}
-<!-- 	<tr>
-		<th>
-			{{key}}
-		</th>
-		<td>
-			{{value}}
-		</td>
-	</tr>
- -->
- 	{% for i in x %}
-	<tr>
-		<th> 
-			{{i}} 
-		</th>
-		<th> 
-			{{x[i]}} 
-		</th>
-	<tr>
-
-	{% endfor %}
-
-	{% endfor %}
-</table>
+<h2>Blood Information</h2>
+<div>
+    <p> Details are as below:</p>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td>{{ row['id'] }}</td>
+        </tr>
+        <tr>
+            <td>Blood Type</td>
+            <td>{{ row['blood_type'] }}</td>
+        </tr>
+        <tr>
+            <td>Amount in Blood Bank</td>
+            <td>{{ row['total_amount'] }}</td>
+        </tr>
+    </table>
+</div>
 {% endblock %}

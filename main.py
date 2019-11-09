@@ -152,10 +152,12 @@ def receive():
         form = ReceiveForm()
         if form.is_submitted():
             result = request.form
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('SELECT * FROM inventory WHERE blood_type = %s', [result['bloodtype']])
+            row = cursor.fetchone()
             # for row in cursor:
             #     print(row)
-            return render_template('request.html', result=result, cursor=cursor)
+            return render_template('request.html', result=result, row=row)
         # Show the receive page
         return render_template('receive.html', form=form)
     # User is not loggedin redirect to login page
@@ -194,7 +196,7 @@ def profile():
         cursor.execute('SELECT * FROM accounts WHERE uid = %s', [session['uid']])
         account = cursor.fetchone()
         form = ReceiveForm()
-        return render_template('profile.html', form=form)
+        return render_template('profile.html', form=form, account=account)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
     
